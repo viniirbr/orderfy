@@ -1,6 +1,5 @@
 import { Order } from "@/shared/interfaces/Order";
 import { axiosBase } from "@/shared/api";
-import { OrderCard } from "@/components/OrdersList/OrderCard";
 import { OrdersList } from "@/components/OrdersList";
 
 export default async function Admin() {

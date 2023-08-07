@@ -5,7 +5,7 @@ declare global {
   var prisma: PrismaClient | undefined;
 }
 
-const prisma: PrismaClient =
+const prisma =
   global.prisma ||
   new PrismaClient({
     log:

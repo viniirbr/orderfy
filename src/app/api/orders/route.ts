@@ -1,5 +1,5 @@
 import { nanoid } from "nanoid";
-import prisma from "../../../server/prisma";
+import prisma from "../../../../prisma/client";
 import { NextResponse } from "next/server";
 import { CreateOrderSchema } from "@/schema/order";
 
