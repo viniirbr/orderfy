@@ -1,7 +1,7 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 import { getServerSession } from "next-auth";
 import prisma from "../../../../prisma/client";
-import { IoMdPrint } from "react-icons/Io";
+import { PrintButton } from "./PrintButton";
 
 export default async function CartDetails({
   params,
@@ -41,8 +41,6 @@ export default async function CartDetails({
     throw new Error("You are not allowed to see this cart");
   }
 
-  console.log(cart);
-
   const categories = await prisma.category.findMany({});
 
   return (
@@ -52,7 +50,10 @@ export default async function CartDetails({
           <h1 className="text-3xl font-bold">{cart?.customer.company}</h1>
           <h2 className="text-xl font-bold">{cart?.customer.name}</h2>
         </div>
-        <IoMdPrint size={32} className="hover:cursor-pointer" />
+        <PrintButton
+          categories={categories.map(({ name }) => name)}
+          cart={cart}
+        />
       </div>
       <ul className="flex flex-col gap-4">
         {cart?.orders.map((order) => {
