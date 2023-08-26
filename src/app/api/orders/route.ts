@@ -1,29 +1,18 @@
 import { nanoid } from "nanoid";
 import prisma from "../../../../prisma/client";
 import { NextResponse } from "next/server";
-import { CreateOrderSchema } from "@/schema/order";
 
 export async function POST(request: Request) {
   try {
-    const body = CreateOrderSchema.parse(await request.json());
-    const datetime = new Date(body.time);
+    const { cartId, customerName } = await request.json();
+    console.log(cartId, customerName);
     const order = await prisma.order.create({
       data: {
-        id: nanoid(8),
-        customerName: body.customerName,
-        customerEmail: body.customerEmail,
-        company: body.company,
-        address: body.address,
-        orderText: body.orderText,
-        time: new Date(
-          datetime.getFullYear(),
-          datetime.getMonth(),
-          datetime.getDate(),
-          datetime.getHours() + 1,
-          datetime.getMinutes()
-        ),
+        customer: customerName,
+        cartId: cartId,
       },
     });
+
     return new NextResponse(JSON.stringify(order), {
       status: 201,
       headers: { "Content-Type": "application/json" },
@@ -33,6 +22,25 @@ export async function POST(request: Request) {
     return new NextResponse(JSON.stringify(error), { status: 500 });
   }
 }
+
+// export async function PATCH(request: Request) {
+//   try {
+//     const { orderId, productId } = await request.json();
+//     console.log(orderId, productId);
+//     const order = await prisma.ordersOnProducts.create({
+//       data: {
+//         orderId,
+//         productId,
+//       },
+//     });
+//     return new NextResponse(JSON.stringify(order), {
+//       status: 201,
+//       headers: { "Content-Type": "application/json" },
+//     });
+//   } catch (error) {
+//     return new NextResponse(JSON.stringify(error), { status: 500 });
+//   }
+// }
 
 export async function GET(request: Request) {
   try {

@@ -35,7 +35,7 @@ export function Input({
       ) : (
         <input
           {...props}
-          className="rounded-md p-2 outline-cyan-500 w-full"
+          className={`rounded-md p-2 outline-cyan-500 w-full text-sm ${props.className}`}
           value={value}
           onChange={(e) => onChangeInput && onChangeInput(e)}
         />

@@ -1,21 +1,22 @@
 "use client";
 
 import { Order } from "@/shared/interfaces/Order";
-import { OrderCard } from "./OrderCard";
+import { CartCard } from "./CartCard";
 import { DateSelector } from "./DateSelector";
 import { useState } from "react";
 import { compareDates } from "@/shared/utils/compareDates";
+import { ICartListResponse } from "@/shared/interfaces/Cart";
 
 interface Props {
-  orders: Order[];
+  carts: ICartListResponse[];
 }
 
-export function OrdersList({ orders }: Props) {
+export function CartsList({ carts }: Props) {
   const [date, setDate] = useState(new Date());
 
-  const ordersForDateSelected = orders.filter((order) => {
-    const orderDate = new Date(order.time);
-    return compareDates(orderDate, date);
+  const ordersForDateSelected = carts.filter((cart) => {
+    const cartDate = new Date(cart.due);
+    return compareDates(cartDate, date);
   });
   return (
     <div className="flex flex-col items-center">
@@ -24,11 +25,11 @@ export function OrdersList({ orders }: Props) {
         {ordersForDateSelected.length > 0 ? (
           ordersForDateSelected
             .sort(
-              (a, b) => new Date(a.time).getTime() - new Date(b.time).getTime()
+              (a, b) => new Date(a.due).getTime() - new Date(b.due).getTime()
             )
-            .map((order, id) => (
+            .map((cart, id) => (
               <li key={id} className="w-full">
-                <OrderCard order={order} />
+                <CartCard cart={cart} />
               </li>
             ))
         ) : (

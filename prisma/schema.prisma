@@ -11,27 +11,38 @@ datasource db {
 }
 
 model Order {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  costumer  String
-  product   Product  @relation(fields: [productId], references: [id])
-  productId String
-  Cart      Cart?    @relation(fields: [cartId], references: [id])
+  id        String             @id @default(cuid())
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+  customer  String
+  Cart      Cart?              @relation(fields: [cartId], references: [id])
   cartId    String?
+  products  OrdersOnProducts[]
 }
 
 model Product {
-  id          String   @id @default(cuid())
-  name        String   @unique
+  id          String             @id @default(cuid())
+  name        String             @unique
   description String
   price       Float
   image       String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  category    Category @relation(fields: [categoryId], references: [id])
-  Order       Order[]
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+  category    Category           @relation(fields: [categoryId], references: [id])
   categoryId  String
+  orders      OrdersOnProducts[]
+}
+
+model OrdersOnProducts {
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  order     Order    @relation(fields: [orderId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id])
+  orderId   String
+  productId String
+  quantity  Int      @default(1)
+
+  @@id([orderId, productId])
 }
 
 model Cart {
@@ -41,8 +52,8 @@ model Cart {
   customer   User       @relation(fields: [customerId], references: [id])
   customerId String
   orders     Order[]
-  due        DateTime
-  status     CartStatus @default(RECEIVED)
+  due        DateTime?
+  status     CartStatus @default(CREATING)
 }
 
 model Category {
@@ -113,6 +124,7 @@ enum Role {
 }
 
 enum CartStatus {
+  CREATING
   RECEIVED
   PREPARING
   DELIVERED

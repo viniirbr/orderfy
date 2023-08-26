@@ -6,3 +6,7 @@ export interface Product {
   image: string | null;
   category: string;
 }
+
+export interface ProductOnOrder extends Product {
+  quantity: number;
+}
