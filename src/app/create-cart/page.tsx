@@ -5,6 +5,33 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/options";
 import prisma from "../../../prisma/client";
 import { ICreateCart } from "@/shared/interfaces/Cart";
+import { $Enums } from "@prisma/client";
+
+const cartInclude = {
+  orders: {
+    select: {
+      products: {
+        select: {
+          quantity: true,
+          product: {
+            select: {
+              id: true,
+              name: true,
+              price: true,
+              category: {
+                select: {
+                  name: true,
+                },
+              },
+            },
+          },
+        },
+      },
+      customer: true,
+      id: true,
+    },
+  },
+};
 
 export default async function CreateCartPage({
   searchParams,
@@ -29,80 +56,62 @@ export default async function CreateCartPage({
       })
     );
 
-    if (searchParams.id) {
-      console.log("tem search");
-    } else {
-      console.log("não tem search");
-    }
-
-    let cart = await prisma.cart.findFirst({
-      where: {
-        customerId: session.user.id,
-        status: "CREATING",
-      },
-      include: {
-        orders: {
-          select: {
+    let cart:
+      | ({
+          orders: {
             products: {
-              select: {
-                quantity: true,
-                product: {
-                  select: {
-                    id: true,
-                    name: true,
-                    price: true,
-                    category: {
-                      select: {
-                        name: true,
-                      },
-                    },
-                  },
-                },
-              },
-            },
-            customer: true,
-            id: true,
-          },
+              product: {
+                id: string;
+                category: {
+                  name: string;
+                };
+                name: string;
+                price: number;
+              };
+              quantity: number;
+            }[];
+            id: string;
+            customer: string;
+          }[];
+        } & {
+          id: string;
+          createdAt: Date;
+          updatedAt: Date;
+          customerId: string;
+          due: Date | null;
+          status: $Enums.CartStatus;
+        })
+      | null;
+
+    if (searchParams.id) {
+      cart = await prisma.cart.findUnique({
+        where: {
+          id: searchParams.id,
         },
-      },
-    });
-    if (!cart) {
-      cart = await prisma.cart.create({
-        data: {
+        include: cartInclude,
+      });
+    } else {
+      cart = await prisma.cart.findFirst({
+        where: {
           customerId: session.user.id,
           status: "CREATING",
-          orders: {
-            create: {
-              customer: "You",
-            },
-          },
         },
-        include: {
-          orders: {
-            select: {
-              products: {
-                select: {
-                  quantity: true,
-                  product: {
-                    select: {
-                      id: true,
-                      name: true,
-                      price: true,
-                      category: {
-                        select: {
-                          name: true,
-                        },
-                      },
-                    },
-                  },
-                },
-              },
-              customer: true,
-              id: true,
-            },
-          },
-        },
+        include: cartInclude,
       });
+      if (!cart) {
+        cart = await prisma.cart.create({
+          data: {
+            customerId: session.user.id,
+            status: "CREATING",
+            orders: {
+              create: {
+                customer: "You",
+              },
+            },
+          },
+          include: cartInclude,
+        });
+      }
     }
 
     return (
@@ -111,12 +120,12 @@ export default async function CreateCartPage({
         cart={
           {
             id: cart?.id,
-            orders: cart?.orders.map((order) => ({
+            orders: cart?.orders.map((order: any) => ({
               customer: order.customer,
               id: order.id,
               products: order.products
                 ? order.products.map(
-                    (product) =>
+                    (product: any) =>
                       ({
                         id: product.product.id,
                         name: product.product.name,
