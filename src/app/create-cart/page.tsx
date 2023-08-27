@@ -6,7 +6,11 @@ import { authOptions } from "../api/auth/[...nextauth]/options";
 import prisma from "../../../prisma/client";
 import { ICreateCart } from "@/shared/interfaces/Cart";
 
-export default async function CreateCartPage() {
+export default async function CreateCartPage({
+  searchParams,
+}: {
+  searchParams: { id: string };
+}) {
   try {
     const session = await getServerSession(authOptions);
     console.log("SESSION", session?.user);
@@ -25,7 +29,13 @@ export default async function CreateCartPage() {
       })
     );
 
-    const cart = await prisma.cart.findFirst({
+    if (searchParams.id) {
+      console.log("tem search");
+    } else {
+      console.log("não tem search");
+    }
+
+    let cart = await prisma.cart.findFirst({
       where: {
         customerId: session.user.id,
         status: "CREATING",
@@ -57,24 +67,15 @@ export default async function CreateCartPage() {
       },
     });
     if (!cart) {
-      console.log("FOI");
-      const cartCreated = await prisma.cart.create({
+      cart = await prisma.cart.create({
         data: {
           customerId: session.user.id,
           status: "CREATING",
-        },
-      });
-      await prisma.order.create({
-        data: {
-          customer: session.user.name,
-          cartId: cartCreated.id,
-        },
-      });
-
-      const cart = await prisma.cart.findFirst({
-        where: {
-          customerId: session.user.id,
-          status: "CREATING",
+          orders: {
+            create: {
+              customer: "You",
+            },
+          },
         },
         include: {
           orders: {
@@ -102,31 +103,6 @@ export default async function CreateCartPage() {
           },
         },
       });
-      return (
-        <CreateCart
-          products={products}
-          cart={
-            {
-              id: cart?.id,
-              orders: cart?.orders.map((order) => ({
-                customer: order.customer,
-                id: order.id,
-                products: order.products
-                  ? order.products.map(
-                      (product) =>
-                        ({
-                          id: product.product.id,
-                          name: product.product.name,
-                          category: product.product.category.name,
-                          quantity: product.quantity,
-                        } as ProductOnOrder)
-                    )
-                  : [],
-              })),
-            } as ICreateCart
-          }
-        />
-      );
     }
 
     return (

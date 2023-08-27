@@ -7,11 +7,11 @@ import { useState } from "react";
 
 interface Props {
   products: Product[];
-  cart: ICreateCart | null;
+  cart: ICreateCart;
 }
 
 export function CreateCart({ cart, products }: Props) {
-  const [orderSelected, setOrderSelected] = useState(cart?.orders[0]?.id || "");
+  const [orderSelected, setOrderSelected] = useState(cart?.orders[0]?.id);
 
   return (
     <div className="flex items-stretch justify-between w-full">

@@ -67,6 +67,28 @@ export async function PATCH(
   }
 }
 
+export async function PUT(
+  request: Request,
+  { params }: { params: { orderId: string } }
+) {
+  const { customerName } = await request.json();
+
+  try {
+    const editedOrder = await prisma.order.update({
+      where: {
+        id: params.orderId,
+      },
+      data: {
+        customer: customerName,
+      },
+    });
+    return NextResponse.json(editedOrder, { status: 200 });
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json(error, { status: 500 });
+  }
+}
+
 export async function DELETE(
   request: Request,
   { params }: { params: { orderId: string } }

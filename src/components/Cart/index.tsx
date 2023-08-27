@@ -1,7 +1,7 @@
 "use client";
 import { Dispatch, SetStateAction, useState } from "react";
 import { CartItem } from "./CartItem";
-import { AddOrder } from "./AddCustomer";
+import { AddOrder } from "./AddOrder";
 import { ICreateCart } from "@/shared/interfaces/Cart";
 import { Input } from "../UI/Inputs";
 import { Button } from "../UI/Button";
@@ -38,6 +38,7 @@ export function Cart({ cart, orderSelected, setOrderSelected }: Props) {
               isSelected={order.id === orderSelected}
               setOrderSelected={setOrderSelected}
               order={order}
+              cartId={cart.id}
               resetOrderSelection={() => setOrderSelected(cart.orders[0].id)}
             />
           ))}
