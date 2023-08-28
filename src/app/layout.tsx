@@ -1,5 +1,12 @@
+import React from "react";
 import "./globals.css";
 import { Inter } from "next/font/google";
+import { get } from "http";
+import { authOptions } from "./api/auth/[...nextauth]/options";
+import { getServerSession } from "next-auth";
+import Link from "next/link";
+import { Button } from "@/components/UI/Button";
+import { ProfileDropdown } from "@/components/ProfileDropdown";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -8,18 +15,16 @@ export const metadata = {
   description: "The best way to order",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await getServerSession(authOptions);
+
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <main className="flex min-h-screen flex-col justify-center items-center py-14 px-4 sm:px-14 lg:px-40 xl:px-64">
-          {children}
-        </main>
-      </body>
+      <body className={inter.className}>{children}</body>
     </html>
   );
 }

@@ -1,6 +1,6 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 import { getServerSession } from "next-auth";
-import prisma from "../../../../prisma/client";
+import prisma from "../../../../../prisma/client";
 import { PrintButton } from "./PrintButton";
 import Link from "next/link";
 

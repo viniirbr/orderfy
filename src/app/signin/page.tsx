@@ -23,32 +23,34 @@ export default function SignIn() {
   }
 
   return (
-    <form onSubmit={login} className="flex flex-col gap-4">
-      <Fieldset label="Email" required>
-        <Input
-          type="email"
-          onChangeInput={(e) =>
-            setSignInValues((prev) => ({
-              ...prev,
-              email: e.target.value,
-            }))
-          }
-          value={signInValues.email}
-        />
-      </Fieldset>
-      <Fieldset label="Password" required>
-        <Input
-          type="password"
-          value={signInValues.password}
-          onChangeInput={(e) =>
-            setSignInValues((prev) => ({ ...prev, password: e.target.value }))
-          }
-        />
-      </Fieldset>
-      <Button title="Sign In" type="submit" />
-      <Link className="flex justify-end font-bold" href="register">
-        <p>Create new account</p>
-      </Link>
-    </form>
+    <main className="flex justify-center items-center h-screen min-h-fit w-full py-14 px-4 sm:px-14 md:px-28 lg:px-64">
+      <form onSubmit={login} className="flex flex-col gap-4 w-full max-w-md">
+        <Fieldset label="Email" required>
+          <Input
+            type="email"
+            onChangeInput={(e) =>
+              setSignInValues((prev) => ({
+                ...prev,
+                email: e.target.value,
+              }))
+            }
+            value={signInValues.email}
+          />
+        </Fieldset>
+        <Fieldset label="Password" required>
+          <Input
+            type="password"
+            value={signInValues.password}
+            onChangeInput={(e) =>
+              setSignInValues((prev) => ({ ...prev, password: e.target.value }))
+            }
+          />
+        </Fieldset>
+        <Button title="Sign In" type="submit" />
+        <Link className="flex justify-end font-bold" href="register">
+          <p>Create new account</p>
+        </Link>
+      </form>
+    </main>
   );
 }

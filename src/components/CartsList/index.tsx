@@ -21,9 +21,10 @@ export function CartsList({ carts }: Props) {
   return (
     <div className="flex flex-col items-center">
       <DateSelector value={date} setValue={setDate} />
-      <ol className="flex flex-col items-center gap-2 w-full">
-        {ordersForDateSelected.length > 0 ? (
-          ordersForDateSelected
+
+      {ordersForDateSelected.length > 0 ? (
+        <ol className="flex flex-col items-center gap-2 w-full mt-4">
+          {ordersForDateSelected
             .sort(
               (a, b) => new Date(a.due).getTime() - new Date(b.due).getTime()
             )
@@ -31,11 +32,13 @@ export function CartsList({ carts }: Props) {
               <li key={id} className="w-full">
                 <CartCard cart={cart} />
               </li>
-            ))
-        ) : (
-          <p>No orders for this day</p>
-        )}
-      </ol>
+            ))}
+        </ol>
+      ) : (
+        <div className="min-h-[400px] flex items-center justify-center">
+          <p className="font-bold text-lg">No orders for this day</p>
+        </div>
+      )}
     </div>
   );
 }

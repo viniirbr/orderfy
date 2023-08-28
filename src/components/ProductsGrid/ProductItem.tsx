@@ -23,10 +23,10 @@ export function ProductItem({ product, orderSelected }: Props) {
   }
 
   return (
-    <div className="flex flex-col p-2 shadow-md">
+    <div className="flex flex-col p-2 shadow-md min-w-[140px] gap-2">
       <div className="w-full h-16 bg-gray-400 rounded-md"></div>
-      <h2>{product.name}</h2>
-      <h3>{product.price}</h3>
+      <h2 className="font-bold">{product.name}</h2>
+      <h3>€{product.price.toFixed(2)}</h3>
       <Button title="Add" onClick={addProductToOrder} />
     </div>
   );

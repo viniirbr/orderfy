@@ -12,6 +12,13 @@ module.exports = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      colors: {
+        primary: {
+          500: "#00007e",
+          400: "#153ea4",
+          300: "#1671cf",
+        },
+      },
       keyframes: {
         slideDownAndFade: {
           from: { opacity: 0, transform: 'translateY(-2px)' },
