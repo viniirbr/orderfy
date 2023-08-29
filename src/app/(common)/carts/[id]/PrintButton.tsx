@@ -1,6 +1,6 @@
 "use client";
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
-import { IoMdPrint } from "react-icons/Io";
+import { IoMdPrint } from "react-icons/io";
 
 interface Props {
   categories: string[];
