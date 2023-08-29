@@ -115,29 +115,31 @@ export default async function CreateCartPage({
     }
 
     return (
-      <CreateCart
-        products={products}
-        cart={
-          {
-            id: cart?.id,
-            orders: cart?.orders.map((order: any) => ({
-              customer: order.customer,
-              id: order.id,
-              products: order.products
-                ? order.products.map(
-                    (product: any) =>
-                      ({
-                        id: product.product.id,
-                        name: product.product.name,
-                        category: product.product.category.name,
-                        quantity: product.quantity,
-                      } as ProductOnOrder)
-                  )
-                : [],
-            })),
-          } as ICreateCart
-        }
-      />
+      <main className="px-4 py-10 flex items-center justify-center md:px-32">
+        <CreateCart
+          products={products}
+          cart={
+            {
+              id: cart?.id,
+              orders: cart?.orders.map((order: any) => ({
+                customer: order.customer,
+                id: order.id,
+                products: order.products
+                  ? order.products.map(
+                      (product: any) =>
+                        ({
+                          id: product.product.id,
+                          name: product.product.name,
+                          category: product.product.category.name,
+                          quantity: product.quantity,
+                        } as ProductOnOrder)
+                    )
+                  : [],
+              })),
+            } as ICreateCart
+          }
+        />
+      </main>
     );
   } catch (error) {
     console.log("CREATE CART PAGE", error);

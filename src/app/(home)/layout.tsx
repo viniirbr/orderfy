@@ -1,5 +1,4 @@
 import React from "react";
-import { Inter } from "next/font/google";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
 import { Button } from "@/components/UI/Button";
@@ -7,14 +6,7 @@ import { ProfileDropdown } from "@/components/ProfileDropdown";
 import { authOptions } from "../api/auth/[...nextauth]/options";
 import "../globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
-
-export const metadata = {
-  title: "Orderfy",
-  description: "The best way to order",
-};
-
-export default async function HomeLayout({
+export default async function Layout({
   admin,
   customer,
 }: {
@@ -22,6 +14,7 @@ export default async function HomeLayout({
   customer: React.ReactNode;
 }) {
   const session = await getServerSession(authOptions);
+  console.log("LAYPUTTTTTTTTTT");
 
   return (
     <>
@@ -34,8 +27,7 @@ export default async function HomeLayout({
           <ProfileDropdown userName={session?.user.name} />
         </nav>
       </header>
-      {admin && session?.user.userRole === "ADMIN" ? admin : null}
-      {customer && session?.user.userRole === "CUSTOMER" ? customer : null}
+      {session?.user.userRole === "ADMIN" ? customer : customer}
     </>
   );
 }

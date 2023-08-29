@@ -5,9 +5,10 @@ import { IoMdPrint } from "react-icons/Io";
 interface Props {
   categories: string[];
   cart: any;
+  userName: string;
 }
 
-export function PrintButton({ cart, categories }: Props) {
+export function PrintButton({ cart, categories, userName }: Props) {
   async function print() {
     const pdfDoc = await PDFDocument.create();
 
@@ -30,7 +31,10 @@ export function PrintButton({ cart, categories }: Props) {
 
     cart?.orders?.forEach((order: any) => {
       page.moveDown(36);
-      page.drawText(order.customer, { size: 16, font: helveticaBold });
+      page.drawText(order.customer === "You" ? userName : order.customer, {
+        size: 16,
+        font: helveticaBold,
+      });
       categories.forEach((category) => {
         const products = order.products.filter(
           (product: any) => product.product.category.name === category

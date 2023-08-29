@@ -29,7 +29,7 @@ export function Cart({ cart, orderSelected, setOrderSelected }: Props) {
     }
   }
   return (
-    <aside className="w-2/5 max-w-[240px] bg-gradient-to-b from-gray-400 to-gray-300 py-10 px-2 rounded-lg flex flex-col gap-10 max-h-screen">
+    <aside className="hidden w-2/5 max-w-[240px] bg-gradient-to-b from-gray-400 to-gray-300 py-10 px-2 rounded-lg md:flex flex-col gap-10 max-h-screen">
       <div className="flex flex-col gap-5">
         <ul className="flex flex-col gap-2">
           {cart?.orders.map((order) => (

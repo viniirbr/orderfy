@@ -9,9 +9,10 @@ import { EditInput } from "./EditInput";
 interface Props {
   setOrderSelected: Dispatch<SetStateAction<string>>;
   cartId: string;
+  className?: string;
 }
 
-export function AddOrder({ cartId, setOrderSelected }: Props) {
+export function AddOrder({ cartId, setOrderSelected, className }: Props) {
   const [editing, setEditing] = useState(false);
 
   async function onAddOrder(customerName: string) {
@@ -36,7 +37,7 @@ export function AddOrder({ cartId, setOrderSelected }: Props) {
   }
   return (
     <h2
-      className="text-center font-bold cursor-pointer"
+      className={`text-center font-bold cursor-pointer bg-none ${className}`}
       onClick={() => setEditing(true)}
     >
       Add person

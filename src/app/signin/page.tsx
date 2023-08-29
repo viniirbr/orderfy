@@ -23,7 +23,7 @@ export default function SignIn() {
   }
 
   return (
-    <main className="flex justify-center items-center h-screen min-h-fit w-full py-14 px-4 sm:px-14 md:px-28 lg:px-64">
+    <main className="flex justify-center items-center h-[32rem] min-h-fit w-full py-14 px-4 sm:px-14 md:px-28 lg:px-64">
       <form onSubmit={login} className="flex flex-col gap-4 w-full max-w-md">
         <Fieldset label="Email" required>
           <Input

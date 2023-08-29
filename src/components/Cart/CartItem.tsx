@@ -61,7 +61,7 @@ export function CartItem({
 
   return (
     <li
-      className={`p-2 cursor-default rounded-lg transition-all max-h-48 overflow-y-auto py-2 ${
+      className={`p-2 cursor-default rounded-lg transition-all max-h-48 overflow-y-auto py-2 min-w-[200px] ${
         isSelected && "bg-blue-400 hover:bg-blue-500"
       } ${isSelected || "hover:bg-gray-500 cursor-pointer"}`}
       onClick={() => setOrderSelected(order.id)}
