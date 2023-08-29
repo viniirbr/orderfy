@@ -7,6 +7,8 @@ import { headers } from "next/headers";
 import { ICartListResponse } from "@/shared/interfaces/Cart";
 import { redirect } from "next/navigation";
 
+export const dynamic = "force-static";
+
 export default async function Admin() {
   try {
     const session = await getServerSession(authOptions);

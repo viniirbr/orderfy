@@ -4,6 +4,8 @@ import { CartCard } from "@/components/CartsList/CartCard";
 import { authOptions } from "./api/auth/[...nextauth]/options";
 import { redirect } from "next/navigation";
 
+export const dynamic = "force-static";
+
 export default async function Customer() {
   const session = await getServerSession(authOptions);
   if (!session) redirect("/signin");

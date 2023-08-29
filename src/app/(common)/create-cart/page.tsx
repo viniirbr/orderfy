@@ -7,6 +7,8 @@ import prisma from "../../../../prisma/client";
 import { ICreateCart } from "@/shared/interfaces/Cart";
 import { $Enums } from "@prisma/client";
 
+export const dynamic = "force-static";
+
 const cartInclude = {
   orders: {
     select: {
