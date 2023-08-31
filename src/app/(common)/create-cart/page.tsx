@@ -7,7 +7,7 @@ import prisma from "../../../../prisma/client";
 import { ICreateCart } from "@/shared/interfaces/Cart";
 import { $Enums } from "@prisma/client";
 
-export const dynamic = "force-static";
+export const revalidate = 1;
 
 const cartInclude = {
   orders: {
@@ -45,18 +45,17 @@ export default async function CreateCartPage({
     console.log("SESSION", session?.user);
 
     if (!session) throw new Error("No session found");
-
-    const productsFromDb = (await axiosBase.get<Product[]>("products")).data;
-    const products: Product[] = productsFromDb.map(
-      ({ id, category, description, image, name, price }) => ({
-        id,
-        category,
-        description,
-        image,
-        name,
-        price,
-      })
-    );
+    const productsFromDb = await prisma.product.findMany({
+      include: { category: true },
+    });
+    const products: Product[] = productsFromDb.map((product) => ({
+      id: product.id,
+      name: product.name,
+      description: product.description,
+      price: product.price,
+      image: product.image,
+      category: product.category.name,
+    }));
 
     let cart:
       | ({

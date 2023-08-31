@@ -4,8 +4,6 @@ import { CartCard } from "@/components/CartsList/CartCard";
 import { authOptions } from "./api/auth/[...nextauth]/options";
 import { redirect } from "next/navigation";
 
-export const dynamic = "force-static";
-
 export default async function Customer() {
   const session = await getServerSession(authOptions);
   if (!session) redirect("/signin");
@@ -28,7 +26,6 @@ export default async function Customer() {
     const dates = carts.map((cart) => {
       return cart.due;
     });
-    console.log("DATES BEFORE", dates);
     const uniqueDates = dates.filter((date, id) => {
       const indexOfEqualDate = dates.findIndex(
         (d) =>
@@ -39,7 +36,6 @@ export default async function Customer() {
       if (indexOfEqualDate < id) return false;
       return true;
     });
-    console.log("DATES", uniqueDates);
 
     return (
       <main className="flex justify-center min-h-fit w-full py-14 px-4 sm:px-14 md:px-28 lg:px-64">

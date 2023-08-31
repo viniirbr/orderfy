@@ -6,8 +6,6 @@ import Link from "next/link";
 import { LuEdit2 } from "react-icons/lu";
 import { BsCupStraw } from "react-icons/bs";
 
-export const dynamic = "force-static";
-
 export default async function CartDetails({
   params,
 }: {

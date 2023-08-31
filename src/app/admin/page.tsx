@@ -6,23 +6,35 @@ import { getServerSession } from "next-auth";
 import { headers } from "next/headers";
 import { ICartListResponse } from "@/shared/interfaces/Cart";
 import { redirect } from "next/navigation";
+import prisma from "../../../prisma/client";
 
-export const dynamic = "force-static";
+export const revalidate = 1;
 
 export default async function Admin() {
   try {
     const session = await getServerSession(authOptions);
     if (session?.user.userRole !== "ADMIN") redirect("/");
-    const { data } = await axiosBase.get<ICartListResponse[]>(
-      "http://localhost:3000/api/carts"
-    );
+    console.log("SESSION", session);
+    // if (!session || session.user.role !== "ADMIN") {
+    //   throw new Error("Unauthorized");
+    // }
+
+    const carts = await prisma.cart.findMany({
+      where: {
+        status: "RECEIVED",
+      },
+      include: {
+        customer: true,
+      },
+    });
 
     return (
       <main className="min-h-screen w-full py-14 px-4 sm:px-14 md:px-28 lg:px-64">
-        <CartsList carts={data} />
+        <CartsList carts={carts as any} />
       </main>
     );
   } catch (error) {
-    console.log("ERROR", error);
+    console.log(error);
+    return <h2>Error</h2>;
   }
 }
