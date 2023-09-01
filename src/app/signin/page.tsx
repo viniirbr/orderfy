@@ -13,6 +13,7 @@ export default function SignIn() {
     password: "",
   });
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const { push } = useRouter();
 
   async function login(event: FormEvent<HTMLFormElement>) {
@@ -25,8 +26,14 @@ export default function SignIn() {
         redirect: false,
         callbackUrl: "/",
       });
-      console.log("result: ", result);
       if (result?.url) push(result?.url);
+      if (result?.error) {
+        if (result.error === "Invalid credentials") {
+          setError("Email or password is incorrect");
+        } else {
+          setError("Something went wrong during login");
+        }
+      }
     } catch (error) {
       console.log("LOGIN ERROR", error);
     } finally {
@@ -40,12 +47,13 @@ export default function SignIn() {
         <Fieldset label="Email" required>
           <Input
             type="email"
-            onChangeInput={(e) =>
+            onChangeInput={(e) => {
+              setError(null);
               setSignInValues((prev) => ({
                 ...prev,
                 email: e.target.value,
-              }))
-            }
+              }));
+            }}
             value={signInValues.email}
           />
         </Fieldset>
@@ -53,11 +61,18 @@ export default function SignIn() {
           <Input
             type="password"
             value={signInValues.password}
-            onChangeInput={(e) =>
-              setSignInValues((prev) => ({ ...prev, password: e.target.value }))
-            }
+            onChangeInput={(e) => {
+              setError(null);
+              setSignInValues((prev) => ({
+                ...prev,
+                password: e.target.value,
+              }));
+            }}
           />
         </Fieldset>
+        {error && (
+          <h3 className="text-center font-bold text-red-500">{error}</h3>
+        )}
         <Button title="Sign In" type="submit" loading={loading} />
         <Link className="flex justify-end font-bold" href="register">
           <p>Create new account</p>
