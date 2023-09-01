@@ -41,7 +41,6 @@ export const authOptions: AuthOptions = {
   ],
   callbacks: {
     session({ session, user, token }) {
-      console.log("SESSION CALLBACK");
       console.log(user);
       return {
         ...session,
@@ -53,7 +52,6 @@ export const authOptions: AuthOptions = {
       };
     },
     jwt({ token, user }) {
-      console.log("JWT CALLBACK");
       const u = user as any;
       if (user) {
         return { ...token, userRole: u.role, id: u.id };

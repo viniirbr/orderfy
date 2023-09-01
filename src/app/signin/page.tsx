@@ -26,7 +26,8 @@ export default function SignIn() {
         redirect: false,
         callbackUrl: "/",
       });
-      if (result?.url) push(result?.url);
+      console.log(result?.url);
+      if (result?.url) window.location.href = result.url;
       if (result?.error) {
         if (result.error === "Invalid credentials") {
           setError("Email or password is incorrect");
