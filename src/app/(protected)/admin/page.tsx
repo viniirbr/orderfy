@@ -1,12 +1,8 @@
-import { Order } from "@/shared/interfaces/Order";
-import { axiosBase } from "@/shared/api";
 import { CartsList } from "@/components/CartsList";
-import { authOptions } from "../api/auth/[...nextauth]/options";
+import { authOptions } from "../../api/auth/[...nextauth]/options";
 import { getServerSession } from "next-auth";
-import { headers } from "next/headers";
-import { ICartListResponse } from "@/shared/interfaces/Cart";
 import { redirect } from "next/navigation";
-import prisma from "../../../prisma/client";
+import prisma from "../../../../prisma/client";
 
 export const revalidate = 1;
 

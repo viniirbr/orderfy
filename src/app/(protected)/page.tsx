@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
-import prisma from "../../prisma/client";
+import prisma from "../../../prisma/client";
 import { CartCard } from "@/components/CartsList/CartCard";
-import { authOptions } from "./api/auth/[...nextauth]/options";
+import { authOptions } from "../api/auth/[...nextauth]/options";
 import { redirect } from "next/navigation";
 
 export default async function Customer() {

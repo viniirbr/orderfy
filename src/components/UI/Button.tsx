@@ -1,8 +1,7 @@
 import Link from "next/link";
 import { type } from "os";
 import { ButtonHTMLAttributes, DetailedHTMLProps, ReactNode } from "react";
-import { IconType } from "react-icons";
-
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 interface Props
   extends DetailedHTMLProps<
     ButtonHTMLAttributes<HTMLButtonElement>,
@@ -15,6 +14,7 @@ interface Props
   type?: "button" | "submit" | "reset";
   href?: string;
   onClick?: () => void;
+  loading?: boolean;
 }
 
 export function Button({
@@ -25,6 +25,7 @@ export function Button({
   type,
   onClick,
   href,
+  loading,
 }: Props) {
   if (href) {
     return (
@@ -41,13 +42,20 @@ export function Button({
   }
   return (
     <button
-      className={`bg-gradient-to-r from-primary-500 from-10% via-primary-400 via-30% to-primary-300 flex items-center justify-center font-semibold text-white rounded-md p-2 w-full max-w-xl hover:scale-[1.01] transition-all ${className}`}
+      className={`bg-gradient-to-r relative from-primary-500 from-10% via-primary-400 via-30% to-primary-300 flex items-center justify-center font-semibold text-white rounded-md p-2 w-full max-w-xl hover:scale-[1.01] transition-all ${className}`}
       type={type}
       onClick={onClick}
     >
       {iconLeft}
       {title}
-      {iconRight}
+      {loading ? (
+        <AiOutlineLoading3Quarters
+          className="absolute right-10 animate-spin"
+          size={20}
+        />
+      ) : (
+        iconRight
+      )}
     </button>
   );
 }

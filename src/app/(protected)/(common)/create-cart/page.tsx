@@ -2,8 +2,8 @@ import { axiosBase } from "@/shared/api";
 import { Product, ProductOnOrder } from "@/shared/interfaces/Product";
 import { CreateCart } from "./CreateCart";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../../api/auth/[...nextauth]/options";
-import prisma from "../../../../prisma/client";
+import { authOptions } from "../../../api/auth/[...nextauth]/options";
+import prisma from "../../../../../prisma/client";
 import { ICreateCart } from "@/shared/interfaces/Cart";
 import { $Enums } from "@prisma/client";
 

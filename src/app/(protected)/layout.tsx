@@ -1,7 +1,7 @@
 import React from "react";
-import "./globals.css";
+import "../globals.css";
 import { Inter } from "next/font/google";
-import { authOptions } from "./api/auth/[...nextauth]/options";
+import { authOptions } from "../api/auth/[...nextauth]/options";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
 import { Button } from "@/components/UI/Button";
@@ -28,12 +28,8 @@ export default async function RootLayout({
             Logo
           </Link>
           <nav className="flex items-center gap-4">
-            {session ? (
-              <>
-                <Button title="Create new cart" href="/create-cart" />
-                <ProfileDropdown userName={session?.user.name} />
-              </>
-            ) : null}
+            <Button title="Create new cart" href="/create-cart" />
+            <ProfileDropdown userName={session?.user.name} />
           </nav>
         </header>
         {children}

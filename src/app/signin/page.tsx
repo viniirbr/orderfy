@@ -5,21 +5,33 @@ import { FormEvent, useState } from "react";
 import { signIn } from "next-auth/react";
 import { Input } from "@/components/UI/Inputs";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function SignIn() {
   const [signInValues, setSignInValues] = useState({
     email: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false);
+  const { push } = useRouter();
 
   async function login(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    await signIn("credentials", {
-      email: signInValues.email,
-      password: signInValues.password,
-      redirect: true,
-      callbackUrl: "/",
-    });
+    setLoading(true);
+    try {
+      const result = await signIn("credentials", {
+        email: signInValues.email,
+        password: signInValues.password,
+        redirect: false,
+        callbackUrl: "/",
+      });
+      console.log("result: ", result);
+      if (result?.url) push(result?.url);
+    } catch (error) {
+      console.log("LOGIN ERROR", error);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -46,7 +58,7 @@ export default function SignIn() {
             }
           />
         </Fieldset>
-        <Button title="Sign In" type="submit" />
+        <Button title="Sign In" type="submit" loading={loading} />
         <Link className="flex justify-end font-bold" href="register">
           <p>Create new account</p>
         </Link>
