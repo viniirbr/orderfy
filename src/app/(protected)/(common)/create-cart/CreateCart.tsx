@@ -10,6 +10,8 @@ import { Button } from "@/components/UI/Button";
 import { axiosBase } from "@/shared/api";
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/UI/Inputs";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface Props {
   products: Product[];
@@ -19,14 +21,16 @@ interface Props {
 export function CreateCart({ cart, products }: Props) {
   const [orderSelected, setOrderSelected] = useState(cart?.orders[0]?.id);
   const [dueDate, setDueDate] = useState(new Date().toISOString().slice(0, 16));
-  const { refresh } = useRouter();
+  const { refresh, push } = useRouter();
 
   async function onConfirmCart() {
     try {
       const result = await axiosBase.patch(`/carts/${cart?.id}`, {
         dueDate,
       });
-      refresh();
+      // toast.success("Order confirmed");
+      // refresh();
+      push("/");
     } catch (error) {
       console.log(error);
     }
@@ -48,7 +52,7 @@ export function CreateCart({ cart, products }: Props) {
           {cart.orders.map((order) => (
             <CartItem
               key={order.id}
-              isSelected={order.id === orderSelected}
+              isSelected={order.id === orderSelected || orderSelected === "You"}
               setOrderSelected={setOrderSelected}
               order={order}
               cartId={cart.id}
@@ -70,6 +74,7 @@ export function CreateCart({ cart, products }: Props) {
         />
         <Button title="Confirm order" onClick={onConfirmCart} />
       </div>
+      <ToastContainer />
     </div>
   );
 }
