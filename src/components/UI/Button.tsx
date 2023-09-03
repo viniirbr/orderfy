@@ -47,15 +47,12 @@ export function Button({
       onClick={onClick}
     >
       {iconLeft}
-      {title}
       {loading ? (
-        <AiOutlineLoading3Quarters
-          className="absolute right-10 animate-spin"
-          size={20}
-        />
+        <AiOutlineLoading3Quarters className="animate-spin" size={24} />
       ) : (
-        iconRight
+        title
       )}
+      {iconRight}
     </button>
   );
 }

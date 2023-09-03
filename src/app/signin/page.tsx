@@ -48,6 +48,7 @@ export default function SignIn() {
         <Fieldset label="Email" required>
           <Input
             type="email"
+            className="border-2 border-gray-300"
             onChangeInput={(e) => {
               setError(null);
               setSignInValues((prev) => ({
@@ -61,6 +62,7 @@ export default function SignIn() {
         <Fieldset label="Password" required>
           <Input
             type="password"
+            className="border-2 border-gray-300"
             value={signInValues.password}
             onChangeInput={(e) => {
               setError(null);
